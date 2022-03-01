@@ -35,15 +35,10 @@ curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.11.1/kind-linux-amd64
 chmod +x ./kind
 mv ./kind /usr/local/bin/kind
 
+#install jq
 sudo apt-get install jq make
 
-
 #install pip
-
 sudo apt update
-
 sudo apt install python3-pip
-
-
-
-
+#------------end-------
