@@ -36,3 +36,14 @@ chmod +x ./kind
 mv ./kind /usr/local/bin/kind
 
 sudo apt-get install jq make
+
+
+#install pip
+
+sudo apt update
+
+sudo apt install python3-pip
+
+
+
+
