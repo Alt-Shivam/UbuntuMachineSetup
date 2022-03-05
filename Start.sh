@@ -5,15 +5,17 @@ sudo -l
 sudo apt-get update && sudo apt-get upgrade -y
 
 # install curl and apt-transport-https
-sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+sudo apt-get install curl
 
 # add key to verify releases
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 # add kubernetes apt repo
-cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
-EOF
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+echo "$(<kubectl.sha256)  kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
 
 # install kubelet, kubeadm and kubectl
 sudo apt-get update
