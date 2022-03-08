@@ -46,7 +46,7 @@ chmod +x ./kind
 mv ./kind /usr/local/bin/kind
 
 #install jq
-sudo apt-get install jq make
+sudo apt-get install -y jq make
 
 #install pip
 sudo apt update
