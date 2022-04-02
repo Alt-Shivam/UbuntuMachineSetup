@@ -55,3 +55,4 @@ sudo apt install -y python3-pip
 apt install libffi-dev
 sudo apt install python3-testresources
 #------------end-------
+#"ansible_user=root ansible_password=yourpassword"
