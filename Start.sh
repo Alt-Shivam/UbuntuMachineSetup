@@ -51,4 +51,6 @@ sudo apt-get install -y jq make
 #install pip
 sudo apt update
 sudo apt install -y python3-pip
+
+apt install libffi-dev
 #------------end-------
