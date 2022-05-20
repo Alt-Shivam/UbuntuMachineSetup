@@ -29,6 +29,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 
+
 # install docker
 sudo apt-get install docker.io
 
@@ -56,3 +57,5 @@ apt install libffi-dev
 sudo apt install python3-testresources
 #------------end-------
 #"ansible_user=root ansible_password=yourpassword"
+
+
