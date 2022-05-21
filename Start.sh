@@ -7,27 +7,37 @@ sudo apt-get update && sudo apt-get upgrade -y
 # install curl and apt-transport-https
 sudo apt-get install curl
 
-# add key to verify releases
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
-# add kubernetes apt repo
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
-echo "$(<kubectl.sha256)  kubectl" | sha256sum --check
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-sudo apt-get update
+# Update the apt package index and install packages needed to use the Kubernetes apt repository:
 sudo apt-get install -y apt-transport-https ca-certificates curl
+
+# Download the Google Cloud public signing key:
 sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 
+# Add the Kubernetes apt repository:
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Update apt package index, install kubelet, kubeadm and kubectl, and pin their version:
 sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
-# install kubelet, kubeadm and kubectl
-sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+# Create config file for kubeadm cluster
+cat <<EOF | sudo tee config.yaml
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta3
+kubernetesVersion: v1.24.0
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
+EOF
+
+# initialize the cluster
+kubeadm init --config config.yaml
 
 # install docker
 sudo apt-get install docker.io
