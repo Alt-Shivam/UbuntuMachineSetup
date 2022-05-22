@@ -4,7 +4,6 @@ export node1='192.168.0.24'
 
 ##################### Run this on all Linux nodes #######################
 
-
 #Update the server
 sudo apt-get update -y; sudo apt-get upgrade -y
 
